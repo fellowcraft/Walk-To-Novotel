@@ -10,23 +10,23 @@ ksmps = 64
 nchnls = 2
 0dbfs = 1
 
-; Walk-To-Novotel01 — first version, engine ported from
-; Rain-Over-Slaughterhouse19 (75/25 direction, stereo flip, 4x density LFO).
-; scheduled grain to a per-take log Walk-To-Novotel01-takeNN-events.sco (NN = 01, 02, ...;
-; next number picked automatically each run) (start dur ampDb skip centsBase
-; wobAmp wobPeriod revSend dir phase, full %.17g precision). Grain phase moved to the
+; Walk-To-Novotel02 — changes vs 01: tamer bandpass sweep
+; (500 Hz..4 kHz at Q=4, was 300 Hz..9 kHz at Q=12) so the
+; sweeping FX sits subtly under the grain. Otherwise same as 01.
+; scheduled grain to a per-take log Walk-To-Novotel02-takeNN-events.sco (NN = 01, 02, ...;
+; next number picked automatically each run) (start dur ampDb skip
+; wobPeriod revSend phase flip, full %.17g precision). Grain phase moved to the
 ; conductor so NOTHING is random inside instr 2: the log plus the recall
 ; template fully reproduces a take. Assembly:
 ; Launch takes ONLY via run-take.sh (plain csound run fails: no $TAKE).
 ; Recall assembly for take NN (e.g. NN=take01):
-; awk '/;__EVENTS__/{while((getline l<"/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel01-take01-events.sco")>0)print l;next}1' /mnt/bigdrive/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel01-recall-template.csd > /mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel01-recall-take01.csd
-; Otherwise same as 11.
+; awk '/;__EVENTS__/{while((getline l<"/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel02-take01-events.sco")>0)print l;next}1' /mnt/bigdrive/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel02-recall-template.csd > /mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel02-recall-take01.csd
 ; Conductor (instr 1) schedules grains (instr 2) into global reverb (instr 99).
 ; Change iTotal in the score to change piece length; LFO periods follow p3.
 ; Take number seeds the PRNG: same take always identical, new take new piece.
 ; MODES (run-take.sh picks correctly; direct csound needs the macros below):
 ; generate: --omacro:TAKE=N  (logs takeNN, playback include stays empty)
-; playback: --omacro:PLAYBACK=1 with Walk-To-Novotel01-playback-events.sco holding
+; playback: --omacro:PLAYBACK=1 with Walk-To-Novotel02-playback-events.sco holding
 ;   the take (run-take.sh copies it there automatically)
 
 gaRevL init 0
@@ -42,9 +42,9 @@ instr 1 ; conductor
   ; --- take log: launch via run-take.sh, which passes --omacro:TAKE=N ---
 #ifdef TAKE
   iTake = $TAKE
-  STakeLog sprintf "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel01-take%02d-events.sco", iTake
+  STakeLog sprintf "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel02-take%02d-events.sco", iTake
   giLog fiopen STakeLog, 0
-  printf_i "Walk-To-Novotel01 take %02d logging to %s\n", 1, iTake, STakeLog
+  printf_i "Walk-To-Novotel02 take %02d logging to %s\n", 1, iTake, STakeLog
 #end ; TAKE
   ; --- take seed: run-take.sh passes --omacro:TAKE=N (different take,
   ; different performance; same N replays the same take via its log) ---
@@ -81,29 +81,19 @@ instr 1 ; conductor
   kAmpW  = 28 + 8 * (0.5 + 0.5 * kSin5T)     ; width 28..36 dB
   kAmpDb random kAmpHi - kAmpW, kAmpHi
 
-  kCentsBase random -600, 600                ; static offset per grain
-  kWobAmp random 100, 600                   ; wobble depth in cents
-  kWobPeriod random 20, 600                 ; 20 s..10 min, independent each grain
+  kWobPeriod random 20, 600                 ; sweep period 20 s..10 min, independent each grain
 
   kRevCtr = 0.55 + 0.3 * kSinH                ; 0.25..0.85, period T/2
   kRevRnd random -1, 1
   kRevSend limit kRevCtr + 0.25 * kRevRnd, 0, 0.95
 
-  kDirRnd random 0, 1
-  if kDirRnd < 0.75 then
-    kSign = 1 ; forwards (75%)
-    kSkipMax = iFileLen - kDurQ * 2.0 - 0.1
-    kSkipMin = 0
-  else
-    kSign = -1 ; backwards (25%), read toward file start
-    kSkipMax = iFileLen - 0.1
-    kSkipMin = kDurQ * 2.0 + 0.1
-  endif
+  ; forwards only: grain must fit from skip to end of file
+  kSkipMax = iFileLen - kDurQ - 0.1
+  kSkipMin = 0
   if kSkipMax < kSkipMin then
     kSkipMax = kSkipMin
   endif
   kSkip random kSkipMin, kSkipMax
-  kDir = kSign ; +1 fwd / -1 bwd, applied to rate in instr 2
   kFlipRnd random 0, 1
   kFlip = kFlipRnd < 0.5 ? 0 : 1 ; 1 = swap L/R for this grain
   kPhs random 0, 1 ; wobble start phase, logged so takes recall exactly
@@ -118,11 +108,11 @@ instr 1 ; conductor
 
   if kTrig == 1 then
 #ifdef TAKE
-    fprintks giLog, "i2 %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g\n", kTq, kDurQ, kAmpDb, kSkip, kCentsBase, kWobAmp, kWobPeriod, kRevSend, kDir, kPhs, kFlip
+    fprintks giLog, "i2 %.17g %.17g %.17g %.17g %.17g %.17g %.17g %.17g\n", kTq, kDurQ, kAmpDb, kSkip, kWobPeriod, kRevSend, kPhs, kFlip
 #end ; TAKE
   endif
 
-  schedkwhen kTrig, 0, 0, 2, kTq - kT, kDurQ, kAmpDb, kSkip, kCentsBase, kWobAmp, kWobPeriod, kRevSend, kDir, kPhs, kFlip
+  schedkwhen kTrig, 0, 0, 2, kTq - kT, kDurQ, kAmpDb, kSkip, kWobPeriod, kRevSend, kPhs, kFlip
 endin
 #end ; PLAYBACK conductor selection
 
@@ -135,29 +125,28 @@ instr 3 ; log closer, scheduled once at score end (generate mode only)
 #end ; TAKE
 endin
 
-instr 2 ; grain: pitched stereo slice, own pitch wobble
+instr 2 ; grain: fixed-rate stereo slice through sweeping narrow bandpass
   iDur = p3
   iAmp = ampdb(p4)
   iSkip = p5
-  iCentsBase = p6
-  iWobAmp = p7
-  iWobPeriod = p8
-  iRevSend = p9
-  iDir = p10 ; +1 forwards, -1 backwards
-  iPhs = p11 ; logged wobble phase, no randomness left in this instrument
-  iFlip = p12 ; 1 = L/R swapped for this grain
+  iWobPeriod = p6
+  iRevSend = p7
+  iPhs = p8 ; logged sweep phase, no randomness left in this instrument
+  iFlip = p9 ; 1 = L/R swapped for this grain
   xtratim 0.01 ; note-off lands in digital silence (envelope already 0),
                 ; so score vs schedkwhen end-rounding cannot differ audibly
 
-  kWob oscil3 iWobAmp, 1 / iWobPeriod, 1, iPhs
-  kCents limit iCentsBase + kWob, -1200, 1200
-  kRatio = iDir * 2 ^ (kCents / 1200)
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", kRatio, iSkip, 0
+  kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; same sine as before, full swing
+  kCf = 500 * (8 ^ ((kSw + 1) * 0.5))    ; 500 Hz..4 kHz, exponential sweep
+  kBw = kCf / 4                          ; wide, gentle Q
+  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  aF1 butbp a1, kCf, kBw
+  aF2 butbp a2, kCf, kBw
   iAtt = 0.3 * iDur
   iRel = 0.3 * iDur
   kEnv linseg 0, iAtt, iAmp, iDur - iAtt - iRel, iAmp, iRel, 0
-  aL = a1 * kEnv
-  aR = a2 * kEnv
+  aL = aF1 * kEnv
+  aR = aF2 * kEnv
   if iFlip == 1 then
     aT = aL
     aL = aR
@@ -182,7 +171,7 @@ endin
 </CsInstruments>
 <CsScore>
 f1 0 16384 10 1
-#include "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel01-playback-events.sco"
+#include "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel02-playback-events.sco"
 i1 0 3600
 i99 0 3606
 i3 3606.5 0.5

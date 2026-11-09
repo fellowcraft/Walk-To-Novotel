@@ -5,9 +5,9 @@
 </CsOptions>
 <CsInstruments>
 
-; Walk-To-Novotel01-recall template. Static resynthesis: NO conductor, NO random
+; Walk-To-Novotel02-recall template. Static resynthesis: NO conductor, NO random
 ; calls, NO file I/O. Grain events come from a logged take assembled at
-; the marker line in the score section (see Walk-To-Novotel01.csd header).
+; the marker line in the score section (see Walk-To-Novotel02.csd header).
 ; i99 length must stay conductor_len + 6 (instr 99 recovers LFO periods).
 
 sr = 48000
@@ -18,29 +18,28 @@ nchnls = 2
 gaRevL init 0
 gaRevR init 0
 
-instr 2 ; grain: pitched stereo slice, own pitch wobble
+instr 2 ; grain: fixed-rate stereo slice through sweeping narrow bandpass
   iDur = p3
   iAmp = ampdb(p4)
   iSkip = p5
-  iCentsBase = p6
-  iWobAmp = p7
-  iWobPeriod = p8
-  iRevSend = p9
-  iDir = p10 ; +1 forwards, -1 backwards
-  iPhs = p11 ; logged wobble phase
-  iFlip = p12 ; 1 = L/R swapped for this grain
+  iWobPeriod = p6
+  iRevSend = p7
+  iPhs = p8 ; logged sweep phase
+  iFlip = p9 ; 1 = L/R swapped for this grain
   xtratim 0.01 ; note-off lands in digital silence (envelope already 0),
                 ; so score vs schedkwhen end-rounding cannot differ audibly
 
-  kWob oscil3 iWobAmp, 1 / iWobPeriod, 1, iPhs
-  kCents limit iCentsBase + kWob, -1200, 1200
-  kRatio = iDir * 2 ^ (kCents / 1200)
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", kRatio, iSkip, 0
+  kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; same sine as before, full swing
+  kCf = 500 * (8 ^ ((kSw + 1) * 0.5))    ; 500 Hz..4 kHz, exponential sweep
+  kBw = kCf / 4                          ; wide, gentle Q
+  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  aF1 butbp a1, kCf, kBw
+  aF2 butbp a2, kCf, kBw
   iAtt = 0.3 * iDur
   iRel = 0.3 * iDur
   kEnv linseg 0, iAtt, iAmp, iDur - iAtt - iRel, iAmp, iRel, 0
-  aL = a1 * kEnv
-  aR = a2 * kEnv
+  aL = aF1 * kEnv
+  aR = aF2 * kEnv
   if iFlip == 1 then
     aT = aL
     aL = aR
