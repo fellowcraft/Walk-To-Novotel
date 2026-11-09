@@ -5,10 +5,10 @@ pitched stereo grains (`diskin2`) from `Media/Walk-To-Novotel.wav`, each with
 its own pitch wobble, random direction, and sine-modulated bounds, into a
 global `reverbsc` bus.
 
-Current version: `csd/Walk-To-Novotel01.csd` (engine ported from
+Current version: `csd/Walk-To-Novotel03.csd` (engine ported from
 Rain-Over-Slaughterhouse19: direction 75% forwards / 25% backwards,
-random stereo flip per grain, Pulse/analog-out default; only REAPER
-touches the Scarlett).
+random stereo flip per grain, sweeping bandpass in parallel at 15% wet,
+Pulse/analog-out default; only REAPER touches the Scarlett).
 
 ## Layout
 
