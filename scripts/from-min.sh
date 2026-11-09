@@ -3,7 +3,7 @@
 # Usage: ./from-min.sh EVENTS_SCO MINUTES [-o out.wav -W -3 -d]
 #   No -o: live to analog out (Pulse default). With -o: file render.
 #   Grains overlapping the start point are kept (attack restarts there).
-D="/mnt/bigdrive/CSOUND/Walk To Novotel"
+D="/mnt/bigdrive/CSOUND/Walk-To-Novotel"
 SCO="$1"; MIN="$2"; shift 2
 case "$SCO" in /*) ;; *) SCO="$PWD/$SCO";; esac
 if [ ! -f "$SCO" ]; then

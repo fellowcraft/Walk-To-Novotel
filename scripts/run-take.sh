@@ -5,7 +5,7 @@
 #     conductor, logging every grain to Walk-To-Novotel01-takeNN-events.sco.
 #   Play back a take:                  run-take.sh takeNN-events.sco [-o out.wav]
 #     Replays the logged grains through the same file (renders or listens).
-D="/mnt/bigdrive/CSOUND/Walk To Novotel"
+D="/mnt/bigdrive/CSOUND/Walk-To-Novotel"
 if [ $# -ge 1 ] && { [ -f "$1" ] || [ -f "$D/takes/$(basename "$1")" ]; }; then
   SCO="$1"; shift
   case "$SCO" in /*) ;; *) SCO="$PWD/$SCO";; esac

@@ -35,7 +35,7 @@ instr 2 ; grain: pitched stereo slice, own pitch wobble
   kWob oscil3 iWobAmp, 1 / iWobPeriod, 1, iPhs
   kCents limit iCentsBase + kWob, -1200, 1200
   kRatio = iDir * 2 ^ (kCents / 1200)
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk To Novotel/Media/Walk-To-Novotel.wav", kRatio, iSkip, 0
+  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", kRatio, iSkip, 0
   iAtt = 0.3 * iDur
   iRel = 0.3 * iDur
   kEnv linseg 0, iAtt, iAmp, iDur - iAtt - iRel, iAmp, iRel, 0
