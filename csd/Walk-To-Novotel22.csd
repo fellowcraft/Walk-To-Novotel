@@ -25,7 +25,7 @@ nchnls = 2
 ; Change iTotal in the score to change piece length; LFO periods follow p3.
 ; Seed comes from the OS entropy pool per take (run-take.sh passes
 ; --omacro:SEED from /dev/urandom) and is logged in the take file, so
-; any take regenerates exactly from its number + seed. Recall ne~/b-rename/run.sh phase2vyer
+; any take regenerates exactly from its number + seed. Recall never
 ; re-draws: every draw is in the log.
 ; MODES (run-take.sh picks correctly; direct csound needs the macros below):
 ; generate: --omacro:TAKE=N  (logs takeNN, playback include stays empty)
@@ -39,7 +39,7 @@ endin
 #else
 instr 1 ; conductor
   iTotal = p3
-  ; --- take log: launch via run-take.sh, which :kDurQ;kDurQpasses --omacro:TAKE=N ---
+  ; --- take log: launch via run-take.sh, which passes --omacro:TAKE=N ---
 #ifdef TAKE
   iTake = $TAKE
   STakeLog sprintf "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-take%02d-events.sco", iTake
