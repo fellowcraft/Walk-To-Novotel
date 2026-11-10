@@ -20,7 +20,7 @@ nchnls = 2
 ; template fully reproduces a take. Assembly:
 ; Launch takes ONLY via run-take.sh (plain csound run fails: no $TAKE).
 ; Recall assembly for take NN (e.g. NN=take01):
-; awk '/;__EVENTS__/{while((getline l<"/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-take01-events.sco")>0)print l;next}1' /mnt/bigdrive/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel22-recall-template.csd > /mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-recall-take01.csd
+; awk '/;__EVENTS__/{while((getline l<"/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-take01-events.sco")>0)print l;next}1' /mnt/b/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel22-recall-template.csd > /mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-recall-take01.csd
 ; Conductor (instr 1) schedules grains (instr 2), each with its own reverb.
 ; Change iTotal in the score to change piece length; LFO periods follow p3.
 ; Seed comes from the OS entropy pool per take (run-take.sh passes
@@ -42,7 +42,7 @@ instr 1 ; conductor
   ; --- take log: launch via run-take.sh, which passes --omacro:TAKE=N ---
 #ifdef TAKE
   iTake = $TAKE
-  STakeLog sprintf "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-take%02d-events.sco", iTake
+  STakeLog sprintf "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-take%02d-events.sco", iTake
   giLog fiopen STakeLog, 0
   printf_i "Walk-To-Novotel22 take %02d seed %d logging to %s\n", 1, iTake, $SEED, STakeLog
   fprints giLog, "; seed %d\n", $SEED
@@ -152,7 +152,7 @@ instr 2 ; grain: fixed-rate slice, parallel ring-mod, autopan, own reverb
   kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; slow drift sine
   kCarr = 0.1 * (20000 ^ ((kSw + 1) * 0.5)) ; 0.1..2 kHz drifting carrier
   aC oscil3 1, kCarr, 1 ; shared audio-rate carrier, phase-continuous
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  a1, a2 diskin2 "/mnt/b/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
   aR1 = a1 * aC
   aR2 = a2 * aC
   iAtt = 0.3 * iDur
@@ -188,7 +188,7 @@ endin
 </CsInstruments>
 <CsScore>
 f1 0 16384 10 1
-#include "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-playback-events.sco"
+#include "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel22-playback-events.sco"
 i1 0 3600
 i3 3606.5 0.5
 </CsScore>

@@ -20,7 +20,7 @@ nchnls = 2
 ; template fully reproduces a take. Assembly:
 ; Launch takes ONLY via run-take.sh (plain csound run fails: no $TAKE).
 ; Recall assembly for take NN (e.g. NN=take01):
-; awk '/;__EVENTS__/{while((getline l<"/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-take01-events.sco")>0)print l;next}1' /mnt/bigdrive/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel03-recall-template.csd > /mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-recall-take01.csd
+; awk '/;__EVENTS__/{while((getline l<"/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-take01-events.sco")>0)print l;next}1' /mnt/b/CSOUND/Walk-To-Novotel/csd/Walk-To-Novotel03-recall-template.csd > /mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-recall-take01.csd
 ; Conductor (instr 1) schedules grains (instr 2) into global reverb (instr 99).
 ; Change iTotal in the score to change piece length; LFO periods follow p3.
 ; Take number seeds the PRNG: same take always identical, new take new piece.
@@ -42,7 +42,7 @@ instr 1 ; conductor
   ; --- take log: launch via run-take.sh, which passes --omacro:TAKE=N ---
 #ifdef TAKE
   iTake = $TAKE
-  STakeLog sprintf "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-take%02d-events.sco", iTake
+  STakeLog sprintf "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-take%02d-events.sco", iTake
   giLog fiopen STakeLog, 0
   printf_i "Walk-To-Novotel03 take %02d logging to %s\n", 1, iTake, STakeLog
 #end ; TAKE
@@ -139,7 +139,7 @@ instr 2 ; grain: fixed-rate stereo slice through sweeping narrow bandpass
   kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; same sine as before, full swing
   kCf = 500 * (8 ^ ((kSw + 1) * 0.5))    ; 500 Hz..4 kHz, exponential sweep
   kBw = kCf / 4                          ; wide, gentle Q
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  a1, a2 diskin2 "/mnt/b/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
   aF1 butbp a1, kCf, kBw
   aF2 butbp a2, kCf, kBw
   iAtt = 0.3 * iDur
@@ -172,7 +172,7 @@ endin
 </CsInstruments>
 <CsScore>
 f1 0 16384 10 1
-#include "/mnt/bigdrive/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-playback-events.sco"
+#include "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel03-playback-events.sco"
 i1 0 3600
 i99 0 3606
 i3 3606.5 0.5

@@ -33,7 +33,7 @@ instr 2 ; grain: fixed-rate slice, parallel ring-mod, autopan, own reverb
   kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; slow drift sine
   kCarr = 40 * (2 ^ kSw) ; 20..80 Hz drifting carrier
   aC oscil3 1, kCarr, 1 ; shared audio-rate carrier, phase-continuous
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  a1, a2 diskin2 "/mnt/b/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
   aR1 = a1 * aC
   aR2 = a2 * aC
   iAtt = 0.3 * iDur

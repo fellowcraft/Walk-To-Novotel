@@ -32,7 +32,7 @@ instr 2 ; grain: fixed-rate stereo slice through sweeping narrow bandpass
   kSw oscil3 1, 1 / iWobPeriod, 1, iPhs ; same sine as before, full swing
   kCf = 300 * (30 ^ ((kSw + 1) * 0.5))  ; 300 Hz..9 kHz, exponential sweep
   kBw = kCf / 12                         ; narrow, constant Q
-  a1, a2 diskin2 "/mnt/bigdrive/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
+  a1, a2 diskin2 "/mnt/b/CSOUND/Walk-To-Novotel/Media/Walk-To-Novotel.wav", 1, iSkip, 0
   aF1 butbp a1, kCf, kBw
   aF2 butbp a2, kCf, kBw
   iAtt = 0.3 * iDur
