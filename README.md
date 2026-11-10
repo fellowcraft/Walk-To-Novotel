@@ -33,6 +33,15 @@ Follow newest file: `./scripts/latest.sh`
 Takes are bit-identical: the event log plus the version's `.csd`
 re-renders the take exactly (verified md5).
 
+## REAPER
+
+`rpp/Walk-To-Novotel-Ambisonic.RPP` plays take01 two ways: track 1 is
+the stereo render as monitored; track 2 (muted) decodes the 4ch AmbiX
+file to stereo through the bundled JSFX (`rpp/jsfx/`, also installed
+under `~/.config/REAPER/Effects/`). For true headphone 3D, install IEM
+BinauralDecoder, put it after the JSFX on track 2, bypass the JSFX,
+unmute track 2 and mute track 1.
+
 ## Ambisonics
 
 Recall also renders first-order AmbiX (W,Y,Z,X; SN3D; elevation 0;

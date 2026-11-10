@@ -1,0 +1,24 @@
+desc:AmbiX FOA to stereo (Walk-To-Novotel)
+// First-order AmbiX (ACN, SN3D) frontal-stage to stereo.
+// Input pins: 1=W omni, 2=Y left(+)/right, 3=Z up, 4=X front.
+// Classic mid-side decode plus a light center fill from X.
+// This is a monitor fold-down, not HRTF binaural: for true headphone
+// 3D, install IEM BinauralDecoder and put it after this (bypass this).
+
+in_pin:left input
+in_pin:right input
+in_pin:z input
+in_pin:x input
+out_pin:left output
+out_pin:right output
+
+slider1:1<0,2,0.01>output trim
+
+@sample
+  w = spl0;
+  y = spl1;
+  x = spl3;
+  l = 0.5 * (w + y) + 0.25 * x;
+  r = 0.5 * (w - y) + 0.25 * x;
+  spl0 = l * slider1;
+  spl1 = r * slider1;
