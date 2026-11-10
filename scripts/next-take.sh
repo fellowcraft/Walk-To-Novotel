@@ -1,8 +1,8 @@
 #!/bin/sh
 # next-take.sh <counterfile> — bumps the counter and leaves the new
-# number in it. First ever run starts at 01. Used by Walk-To-Novotel21.csd
+# number in it. First ever run starts at 01. Used by Walk-To-Novotel22.csd
 # (Csound reads the counter file back) so every live run logs to a
-# fresh Walk-To-Novotel21-takeNN-events.sco instead of overwriting one file.
+# fresh Walk-To-Novotel22-takeNN-events.sco instead of overwriting one file.
 f="$1"
 n=0
 if [ -f "$f" ]; then n=$(cat "$f" 2>/dev/null); fi
