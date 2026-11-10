@@ -5,7 +5,7 @@ pitched stereo grains (`diskin2`) from `Media/Walk-To-Novotel.wav`, each with
 its own pitch wobble, random direction, and sine-modulated bounds, into a
 global `reverbsc` bus.
 
-Current version: `csd/Walk-To-Novotel09.csd` (engine ported from
+Current version: `csd/Walk-To-Novotel11.csd` (engine ported from
 Rain-Over-Slaughterhouse19: ring modulator in parallel at 50% wet,
 independent sine autopan per side (1..8 cycles per grain),
 per-grain reverb, halved send, Pulse/analog-out default; only
