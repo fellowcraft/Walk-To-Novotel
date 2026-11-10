@@ -6,7 +6,7 @@ its own pitch wobble, random direction, and sine-modulated bounds, into a
 global `reverbsc` bus.
 
 Current version: `csd/Walk-To-Novotel09.csd` (engine ported from
-Rain-Over-Slaughterhouse19: ring modulator in parallel at 20% wet,
+Rain-Over-Slaughterhouse19: ring modulator in parallel at 50% wet,
 independent sine autopan per side (1..8 cycles per grain),
 per-grain reverb, halved send, Pulse/analog-out default; only
 REAPER touches the Scarlett).
