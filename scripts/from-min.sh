@@ -13,7 +13,6 @@ if [ ! -f "$SCO" ]; then
   fi
 fi
 OFF=$(python3 -c "print($MIN*60)")
-LEN=$(python3 -c "print(3600-$OFF+6)")
 python3 - "$SCO" "$OFF" <<'EOF' > /tmp/opencode/aud-events.sco
 import sys
 off = float(sys.argv[2])
@@ -28,8 +27,7 @@ for l in open(sys.argv[1]):
 EOF
 N=$(wc -l < /tmp/opencode/aud-events.sco)
 echo "from-min: $N grains from minute $MIN (offset ${OFF}s)"
-sed -e "s/^i99 0 3606\$/i99 0 $LEN/" "$D/csd/Walk-To-Novotel05-recall-template.csd" \
-  > /tmp/opencode/aud-tpl.csd
+cp "$D/csd/Walk-To-Novotel08-recall-template.csd" /tmp/opencode/aud-tpl.csd
 awk '/;__EVENTS__/{while((getline l<"/tmp/opencode/aud-events.sco")>0)print l;next}1' \
   /tmp/opencode/aud-tpl.csd > /tmp/opencode/audition.csd
 exec csound "$@" /tmp/opencode/audition.csd
