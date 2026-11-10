@@ -1,14 +1,14 @@
 # Walk-To-Novotel
 
 Generative hour-long Csound piece. A conductor instrument schedules
-pitched stereo grains (`diskin2`) from `Media/Walk-To-Novotel.wav`, each with
-its own pitch wobble, random direction, and sine-modulated bounds, into a
-global `reverbsc` bus.
+long stereo grains (`diskin2` from `Media/Walk-To-Novotel.wav`) through
+per-grain ring modulation (0.1 Hz..2 kHz carrier, 20..80% wet),
+independent sine autopan (1..8 cycles per side) and per-grain reverb
+into a stereo mix, plus a parallel first-order AmbiX bus with
+per-side elevation (recall path only).
 
-Current version: `csd/Walk-To-Novotel23.csd` (engine ported from
-Rain-Over-Slaughterhouse19: ring modulator in parallel, wet/dry
-random per grain (20..80% wet),
-independent sine autopan per side (1..8 cycles per grain),
+Current version: `csd/Walk-To-Novotel25.csd` (independent sine autopan
+per side (1..8 cycles per grain), elevation LFOs per side,
 per-grain reverb, halved send, Pulse/analog-out default; only
 REAPER touches the Scarlett).
 
