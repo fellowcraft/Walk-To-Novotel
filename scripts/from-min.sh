@@ -27,7 +27,7 @@ for l in open(sys.argv[1]):
 EOF
 N=$(wc -l < /tmp/opencode/aud-events.sco)
 echo "from-min: $N grains from minute $MIN (offset ${OFF}s)"
-cp "$D/csd/Walk-To-Novotel13-recall-template.csd" /tmp/opencode/aud-tpl.csd
+cp "$D/csd/Walk-To-Novotel14-recall-template.csd" /tmp/opencode/aud-tpl.csd
 awk '/;__EVENTS__/{while((getline l<"/tmp/opencode/aud-events.sco")>0)print l;next}1' \
   /tmp/opencode/aud-tpl.csd > /tmp/opencode/audition.csd
 exec csound "$@" /tmp/opencode/audition.csd
