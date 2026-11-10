@@ -7,7 +7,7 @@ independent sine autopan (1..8 cycles per side) and per-grain reverb
 into a stereo mix, plus a parallel first-order AmbiX bus with
 per-side elevation (recall path only).
 
-Current version: `csd/Walk-To-Novotel25.csd` (independent sine autopan
+Current version: `csd/Walk-To-Novotel26.csd` (independent sine autopan
 per side (1..8 cycles per grain), elevation LFOs per side,
 per-grain reverb, halved send, Pulse/analog-out default; only
 REAPER touches the Scarlett).
