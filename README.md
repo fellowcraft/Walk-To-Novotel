@@ -33,4 +33,13 @@ Follow newest file: `./scripts/latest.sh`
 Takes are bit-identical: the event log plus the version's `.csd`
 re-renders the take exactly (verified md5).
 
+## Ambisonics
+
+Recall also renders first-order AmbiX (W,Y,Z,X; SN3D; elevation 0;
+frontal stage from the pan LFOs) to
+`takes/Walk-To-Novotel24-recall-ambi.wav` (fixed name, overwritten per
+recall). Live/generate stays stereo — ambisonics is a recall product.
+Use the awk line in the `.csd` header to assemble; audition renders
+(`from-min.sh`) skip the ambi file.
+
 Requires Csound 6.18, sox (`soxi`, `stats`).
