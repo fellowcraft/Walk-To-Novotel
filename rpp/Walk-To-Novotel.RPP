@@ -239,7 +239,7 @@
     AUTOMODE 0
     PANLAWFLAGS 3
     VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 2 0
+    MUTESOLO 1 0 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
@@ -382,6 +382,51 @@
       >
       <EXT
         ORIGINAL_FILENAME /mnt/b/reaper/GER26/Media/261017-051208.WAV
+      >
+    >
+  >
+  <TRACK {170F8CC0-B102-49CD-8002-002C12708C5B}
+    NAME "Take27 -- thin take, full hour"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 1 0 -1 -1 1
+    MUTESOLO 0 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 400 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 0
+    TRACKID {170F8CC0-B102-49CD-8002-002C12708C5B}
+    PERF 0
+    MIDIOUT -1 -1
+    MAINSEND 1 0
+    <ITEM
+      POSITION 0
+      SNAPOFFS 0
+      LENGTH 3767.4666666666667
+      LOOP 0
+      ALLTAKES 0
+      MUTE 0 0
+      SEL 0
+      IGUID {907377A9-EEED-48A7-901F-5DB77CB6FD1C}
+      IID 6
+      NAME Walk-To-Novotel27-take01.wav
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {73D012FF-A63E-49D9-9335-FA6FBD5EF9D9}
+      <SOURCE WAVE
+        FILE "/mnt/b/CSOUND/Walk-To-Novotel/takes/Walk-To-Novotel27-take01.wav"
       >
     >
   >
