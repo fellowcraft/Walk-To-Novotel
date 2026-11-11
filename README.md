@@ -35,7 +35,7 @@ re-renders the take exactly (verified md5).
 
 ## REAPER
 
-`reaper/Walk-To-Novotel-Ambisonic/Walk-To-Novotel-Ambisonic.RPP` plays take01 two ways: track 1 is
+`reaper/Ambisonic-Walk-To-Novatel/Ambisonic-Walk-To-Novatel.RPP` plays take01 two ways: track 1 is
 the stereo render as monitored; track 2 (muted) decodes the 4ch AmbiX
 file to stereo through the bundled JSFX (`rpp/jsfx/`, also installed
 under `~/.config/REAPER/Effects/`). For true headphone 3D, install IEM
